@@ -1,11 +1,7 @@
 import React from "react";
-import { Search, MapPin, Award, Send } from "lucide-react";
-export const Layout = ({
-  children
-}: {
-  children: React.ReactNode;
-}) => {
-  return <div className="flex w-full min-h-screen bg-gray-50">
+export const Layout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="flex w-full min-h-screen bg-gray-50">
       <aside className="w-64 bg-white border-r border-gray-200 p-4 flex flex-col">
         <h2 className="font-semibold text-lg mb-4">Select Trial</h2>
         <div className="space-y-2">
@@ -21,5 +17,6 @@ export const Layout = ({
         </div>
       </aside>
       {children}
-    </div>;
+    </div>
+  );
 };
