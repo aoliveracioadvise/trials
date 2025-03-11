@@ -20,6 +20,11 @@ export function MainAppPage() {
           isAuthenticated: localStorage.getItem("isAuthenticated") === "TRUE",
         }));
       }, 1200);
+    } else {
+      setPageState((prev) => ({
+        ...prev,
+        checkLocalStorage: false,
+      }));
     }
   }, [localStorage]);
   if (pageState.checkLocalStorage) {
