@@ -1,48 +1,56 @@
 import { useState } from "react";
-import { Trials } from "../../../database/Trials/Trials";
 import Matching from "../Matching/Matching";
 import { useTrialsPageContext } from "../context";
 
 export const ResultsList = () => {
-  const { setPageState } = useTrialsPageContext();
+  const { pageState, setPageState } = useTrialsPageContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [trialsPerPage, setTrialsPerPage] = useState(5);
-  const totalPages = Math.ceil(Trials.length / trialsPerPage);
+  const totalPages = Math.ceil(pageState.allTrials.length / trialsPerPage);
 
   return (
     <div className="flex w-full h-[90%]">
       <div className="flex  flex-col w-1/4 h-full bg-white border-r border-gray-200 p-4 gap-4">
         <h2 className="font-semibold text-lg">Select Trial</h2>
         <div className="flex flex-col gap-4 overflow-y-auto h-full">
-          {Trials.slice(
-            (currentPage - 1) * trialsPerPage,
-            currentPage * trialsPerPage
-          ).map((trial) => (
-            <button
-              onClick={() => {
-                setPageState((prev) => ({
-                  ...prev,
-                  selectedTrial: trial,
-                }));
-              }}
-              key={trial["NCT Number"]}
-              className="flex min-h-40 w-full p-3 text-left rounded-lg bg-blue-50 text-blue-700 font-medium hover:bg-blue-100 overflow-y-auto"
-            >
-              <div className="flex flex-col gap-2 w-full">
-                <div className="text-sm font-semibold">
-                  {trial["Study Title"]}
+          {pageState.allTrials
+            .slice(
+              (currentPage - 1) * trialsPerPage,
+              currentPage * trialsPerPage
+            )
+            .map((trial) => (
+              <button
+                onClick={() => {
+                  setPageState((prev) => ({
+                    ...prev,
+                    selectedTrial: trial,
+                    matchedPhysician: null,
+                  }));
+                }}
+                key={trial["NCT Number"]}
+                className={`flex min-h-40 w-full p-3 text-left rounded-lg ${
+                  pageState.selectedTrial?.["NCT Number"] ===
+                  trial["NCT Number"]
+                    ? "bg-blue-200"
+                    : "bg-slate-100"
+                } text-blue-700 font-medium hover:bg-blue-100 overflow-y-auto`}
+              >
+                <div className="flex flex-col gap-2 w-full">
+                  <div className="text-sm font-semibold">
+                    {trial["Study Title"]}
+                  </div>
+                  <div className="text-xs">Phase: {trial["Phases"]}</div>
+                  <div className="text-xs">Sponsor: {trial["Sponsor"]}</div>
+                  <div className="text-xs">
+                    Locations:
+                    {trial["Locations"] !== "" &&
+                    trial["Locations"] !== undefined
+                      ? trial["Locations"]
+                      : "NA"}
+                  </div>
                 </div>
-                <div className="text-xs">Phase: {trial["Phases"]}</div>
-                <div className="text-xs">Sponsor: {trial["Sponsor"]}</div>
-                <div className="text-xs">
-                  Locations:
-                  {trial["Locations"] !== "" && trial["Locations"] !== undefined
-                    ? trial["Locations"]
-                    : "NA"}
-                </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            ))}
         </div>
         <div className="flex w-full justify-center items-center mt-2 space-x-2 text-xs">
           <select

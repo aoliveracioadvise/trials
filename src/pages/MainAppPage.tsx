@@ -56,7 +56,7 @@ export function MainAppPage() {
         </div>
         <div className="h-[calc(100vh-100px)] overflow-auto box-border">
           <Routes>
-            <Route path="/" element={<Trials />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/trials" element={<Trials />} />
             <Route path="/physicians" element={<Physicians />} />

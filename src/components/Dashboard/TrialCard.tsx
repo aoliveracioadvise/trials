@@ -1,33 +1,38 @@
-import React from "react";
-import { Clock, Users } from "lucide-react";
+import { BriefcaseMedical } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 interface TrialCardProps {
+  trialId: string;
   title: string;
   phase: string;
   sponsor: string;
   status: string;
-  enrollmentTarget: number;
-  currentEnrollment: number;
+  area: string;
 }
 export const TrialCard = ({
+  trialId,
   title,
   phase,
   sponsor,
   status,
-  enrollmentTarget,
-  currentEnrollment
+  area,
 }: TrialCardProps) => {
-  return <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+  const navigate = useNavigate();
+  return (
+    <div
+      className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 cursor-pointer hover:bg-slate-100"
+      onClick={() => {
+        navigate(`/trials?trialid=${trialId}`);
+      }}
+    >
       <h3 className="font-medium text-gray-900">{title}</h3>
       <div className="mt-2 space-y-2">
         <div className="flex items-center text-sm text-gray-600">
-          <div size={16} className="mr-2" />
-          <span>Phase {phase}</span>
+          <div className="mr-2" />
+          <span>Phase: {phase !== "" ? phase : "NA"}</span>
         </div>
         <div className="flex items-center text-sm text-gray-600">
-          <Users size={16} className="mr-2" />
-          <span>
-            {currentEnrollment}/{enrollmentTarget} enrolled
-          </span>
+          <BriefcaseMedical size={16} className="mr-2" />
+          <span>Area: {area}</span>
         </div>
         <div className="flex items-center justify-between mt-3">
           <span className="text-sm text-gray-500">{sponsor}</span>
@@ -36,5 +41,6 @@ export const TrialCard = ({
           </span>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };

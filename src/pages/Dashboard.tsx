@@ -1,37 +1,11 @@
-import React from "react";
 import { TrialCard } from "../components/Dashboard/TrialCard";
 import { AINotifications } from "../components/Dashboard/AINotifications";
 import { EnrollmentChart } from "../components/Dashboard/EnrollmentChart";
 import { PhysicianReferrals } from "../components/Dashboard/PhysicianReferrals";
-const mockTrials = [
-  {
-    id: 1,
-    title: "Advanced Diabetes Treatment Study",
-    phase: "III",
-    sponsor: "PharmaCorp",
-    status: "Recruiting",
-    enrollmentTarget: 100,
-    currentEnrollment: 45,
-  },
-  {
-    id: 2,
-    title: "Cardiovascular Prevention Trial",
-    phase: "II",
-    sponsor: "BioTech Inc",
-    status: "Active",
-    enrollmentTarget: 75,
-    currentEnrollment: 30,
-  },
-  {
-    id: 3,
-    title: "Alzheimer's Early Detection Study",
-    phase: "IV",
-    sponsor: "NeuroHealth",
-    status: "Recruiting",
-    enrollmentTarget: 150,
-    currentEnrollment: 89,
-  },
-];
+import { Trials } from "../database/Trials/Trials";
+import { FSFGS } from "../database/Trials/FSGS";
+import { WEIGHT_LOSS } from "../database/Trials/WEIGHT_LOSS";
+
 export const Dashboard = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -43,8 +17,53 @@ export const Dashboard = () => {
               Open Trials
             </h2>
             <div className="space-y-4">
-              {mockTrials.map((trial) => (
-                <TrialCard key={trial.id} {...trial} />
+              {Trials.filter(
+                (trial) => trial["NCT Number"] === "NCT06566716"
+              ).map((item, i) => (
+                <TrialCard
+                  key={i}
+                  {...{
+                    id: i,
+                    trialId: item["NCT Number"] as string,
+                    title: item["Study Title"] as string,
+                    phase: item["Phases"] as string,
+                    sponsor: item["Sponsor"] as string,
+                    status: item["Study Status"] as string,
+                    area: "Overian Cancer",
+                  }}
+                />
+              ))}
+              {FSFGS.filter(
+                (trial) => trial["NCT Number"] === "NCT05183646"
+              ).map((item, i) => (
+                <TrialCard
+                  key={i}
+                  {...{
+                    id: i,
+                    trialId: item["NCT Number"] as string,
+                    title: item["Study Title"] as string,
+                    phase: item["Phases"] as string,
+                    sponsor: item["Sponsor"] as string,
+                    status: item["Study Status"] as string,
+                    area: "FSGS",
+                  }}
+                />
+              ))}
+              {WEIGHT_LOSS.filter(
+                (trial) => trial["NCT Number"] === "NCT05949008"
+              ).map((item, i) => (
+                <TrialCard
+                  key={i}
+                  {...{
+                    id: i,
+                    trialId: item["NCT Number"] as string,
+                    title: item["Study Title"] as string,
+                    phase: item["Phases"] as string,
+                    sponsor: item["Sponsor"] as string,
+                    status: item["Study Status"] as string,
+                    area: "Weight Loss",
+                  }}
+                />
               ))}
             </div>
           </section>
