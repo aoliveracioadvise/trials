@@ -37,7 +37,7 @@ export default function Matching() {
             matches.filter(
               (item) =>
                 item.id.slice(0, -2) === pageState.selectedTrial?.["NCT Number"]
-            )
+            ).length > 0
           ) {
             setPageState((prev) => ({
               ...prev,
@@ -88,7 +88,8 @@ export default function Matching() {
             <Loader2 className="h-10 w-10 animate-spin" />
             <p className="text-gray-600">Loading physicians...</p>
           </div>
-        ) : (
+        ) : pageState.matchedPhysician !== null &&
+          pageState.matchedPhysician.length > 0 ? (
           <div className="flex w-full h-full items-between justify-between flex-col gap-4 pb-4">
             <div className="grid grid-cols-3 grid-rows-auto gap-6 p-6 w-full">
               {Physicians.filter((physician) =>
@@ -122,7 +123,7 @@ export default function Matching() {
                   <p className="text-gray-700 mb-2">
                     Skills: {physician.technical_skills}
                   </p>
-                  <div className="flex  gap-4 items-top text-gray-600 mb-4">
+                  <div className="flex gap-4 items-top text-gray-600 mb-4">
                     <span>Interests:</span>
                     <span>{physician.research_interests}</span>
                   </div>
@@ -199,6 +200,10 @@ export default function Matching() {
                 {currentPage} of {totalPages}
               </span>
             </div>
+          </div>
+        ) : (
+          <div className="flex w-full h-full items-center justify-center flex-col gap-4">
+            <p className="text-gray-600">No physicians</p>
           </div>
         )
       ) : (
