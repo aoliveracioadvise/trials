@@ -7,7 +7,9 @@ export default function Matching() {
   const { pageState, setPageState } = useTrialsPageContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [physicianPerPage, setPhysiciansPerPage] = useState(5);
-  const totalPages = Math.ceil(Physicians.length / physicianPerPage);
+  const totalPages = Math.ceil(
+    (pageState.matchedPhysician?.length || 0) / physicianPerPage
+  );
   useEffect(() => {
     if (pageState.selectedTrial !== null) {
       setPageState((prev) => ({
