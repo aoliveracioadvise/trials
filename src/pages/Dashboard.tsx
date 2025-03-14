@@ -18,7 +18,7 @@ export const Dashboard = () => {
             </h2>
             <div className="space-y-4">
               {Trials.filter(
-                (trial) => trial["NCT Number"] === "NCT06566716"
+                (trial) => trial["NCT Number"] === "NCT00494442"
               ).map((item, i) => (
                 <TrialCard
                   key={i}

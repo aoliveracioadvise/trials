@@ -18,7 +18,7 @@ export default function Matching() {
       Physicians.forEach(async (physician, i) => {
         try {
           const _res = await fetch(
-            `http://127.0.0.1:8000/physician/${physician.id}/trials`
+            `http://127.0.0.1:8000/physician/${physician.npiNumber}/trials`
           );
           const res = await _res.json();
           console.log(res);
@@ -45,7 +45,7 @@ export default function Matching() {
                 ? [
                     ...prev.matchedPhysician,
                     {
-                      id: physician.id,
+                      id: physician.npiNumber,
                       matchScore: matches.filter(
                         (item) =>
                           item.id.slice(0, -2) ===
@@ -56,7 +56,7 @@ export default function Matching() {
                   ]
                 : [
                     {
-                      id: physician.id,
+                      id: physician.npiNumber,
                       matchScore: matches.filter(
                         (item) =>
                           item.id.slice(0, -2) ===
@@ -95,37 +95,37 @@ export default function Matching() {
               {Physicians.filter((physician) =>
                 new Set(
                   pageState.matchedPhysician?.map((item) => item.id)
-                )?.has(physician.id)
+                )?.has(physician.npiNumber)
               ).map((physician) => (
                 <div
-                  key={physician.id}
+                  key={physician.npiNumber}
                   className="flex flex-col justify-between bg-white h-60 w-full px-6 py-2 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="font-semibold text-lg">
-                        {physician.name}
+                        {physician.firstName} {physician.lastName}
                       </h3>
                       <p className="text-gray-600">
-                        {physician.medical_specialties}
+                        {physician.primarySpecialty}
                       </p>
                     </div>
                     <div className="flex items-center bg-blue-50 px-3 py-1 rounded-full">
                       <span className="text-blue-700 font-semibold">
-                        {
+                        {parseFloat(
                           pageState.matchedPhysician?.filter(
-                            (item) => item.id === physician.id
-                          )[0].matchScore
-                        }
+                            (item) => item.id === physician.npiNumber
+                          )[0].matchScore as string
+                        )}
                       </span>
                     </div>
                   </div>
                   <p className="text-gray-700 mb-2">
-                    Skills: {physician.technical_skills}
+                    Skills: {physician.firstResearchInterest}
                   </p>
                   <div className="flex gap-4 items-top text-gray-600 mb-4">
                     <span>Interests:</span>
-                    <span>{physician.research_interests}</span>
+                    <span>{physician.secondResearchInterest}</span>
                   </div>
                   <button className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
                     <Send className="h-4 w-4" />

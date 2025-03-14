@@ -1,10 +1,30 @@
 export type PhysicianType = {
-  id: string;
-  name: string;
-  medical_specialties: string[];
-  technical_skills: string[];
-  years_of_experience: {
-    [key: string]: number;
-  };
-  research_interests: string[];
+  status: string;
+  lastName: string;
+  firstName: string;
+  title: string;
+  degree: string;
+  gender: string;
+  practiceName: string;
+  streetAddress: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  phone: string;
+  fax: string;
+  cell: string;
+  email: string;
+  language: string;
+  secondLanguage: string;
+  regLicenseNumber: string;
+  expirationDate: string;
+  npiNumber: string;
+  taxonomy: string;
+  primarySpecialty: string;
+  boardCertified: string;
+  secondSpecialty: string;
+  firstResearchInterest: string;
+  secondResearchInterest: string;
+  thirdResearchInterest: string;
+  notes: string;
 };

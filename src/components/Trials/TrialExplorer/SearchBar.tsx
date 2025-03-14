@@ -57,49 +57,58 @@ export const SearchBar = () => {
 
   const HandleFilter = () => {
     const filteredTrials = Trials.filter((trial) => {
-      // Check each filter condition if it exists
+      // Check trial ID filter
       if (pageState.filters.trialId !== "") {
-        if (
-          pageState.filters.trialId &&
-          trial["NCT Number"] === pageState.filters.trialId
-        ) {
+        if (trial["NCT Number"] === pageState.filters.trialId) {
           return true;
         }
         return false;
-      } else {
-        return true;
       }
-      // if (
-      //   pageState.filters.theraputicArea &&
-      //   !trial["Conditions"]
-      //     ?.toLowerCase()
-      //     .includes(pageState.filters.theraputicArea.toLowerCase())
-      // ) {
-      //   return false;
-      // }
-      // if (
-      //   pageState.filters.location &&
-      //   !trial["Locations"]
-      //     ?.toLowerCase()
-      //     .includes(pageState.filters.location.toLowerCase())
-      // ) {
-      //   return false;
-      // }
-      // if (
-      //   pageState.filters.sponsor &&
-      //   !trial["Sponsor"]
-      //     ?.toLowerCase()
-      //     .includes(pageState.filters.sponsor.toLowerCase())
-      // ) {
-      //   return false;
-      // }
+
+      // Initialize as true and then apply each filter
+      let passesFilters = true;
+
+      // Check location filter
+      if (pageState.filters.location && trial["Locations"]) {
+        const locationList = trial["Locations"]
+          .split(",")
+          .map((loc) => loc.trim());
+        if (!locationList.includes(pageState.filters.location)) {
+          passesFilters = false;
+        }
+      }
+
+      // Check sponsor filter
+      if (pageState.filters.sponsor && trial["Sponsor"]) {
+        if (trial["Sponsor"].trim() !== pageState.filters.sponsor) {
+          passesFilters = false;
+        }
+      }
+
+      return passesFilters;
     });
+
     setPageState((prev) => ({
       ...prev,
       allTrials: filteredTrials,
       selectedTrial: null,
     }));
   };
+
+  const HandleClearFilters = () => {
+    setPageState((prev) => ({
+      ...prev,
+      filters: {
+        trialId: "",
+        theraputicArea: "",
+        location: "",
+        sponsor: "",
+      },
+      allTrials: Trials,
+      selectedTrial: null,
+    }));
+  };
+
   return (
     <div className="h-[10%] w-full bg-white shadow-sm border-b">
       <div className="w-full mx-auto p-4">
@@ -207,13 +216,21 @@ export const SearchBar = () => {
               ))}
             </select>
           </div>
-          <button
-            className="h-fit bg-blue-600 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-blue-700"
-            onClick={HandleFilter}
-          >
-            <Filter size={18} />
-            Filter
-          </button>
+          <div className="flex gap-2">
+            <button
+              className="h-fit bg-blue-600 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-blue-700"
+              onClick={HandleFilter}
+            >
+              <Filter size={18} />
+              Filter
+            </button>
+            <button
+              className="h-fit bg-blue-600 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-blue-700"
+              onClick={HandleClearFilters}
+            >
+              Clear Filters
+            </button>
+          </div>
         </div>
       </div>
     </div>
