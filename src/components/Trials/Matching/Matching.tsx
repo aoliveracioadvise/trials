@@ -16,12 +16,14 @@ export default function Matching() {
         matchedPhysician: null,
       }));
       Physicians.forEach(async (physician, i) => {
+        await new Promise((resolve) => setTimeout(resolve, 10000));
+
         try {
           const _res = await fetch(
             `http://127.0.0.1:8000/physician/${physician.npiNumber}/trials`
           );
           const res = await _res.json();
-          console.log(res);
+          console.log("------------", res);
           const matches = res.trials.matches as Array<{
             id: string;
             confidence: string;
@@ -43,7 +45,7 @@ export default function Matching() {
               ...prev,
               matchedPhysician: prev.matchedPhysician
                 ? [
-                    ...prev.matchedPhysician,
+                    ...(prev.matchedPhysician || []),
                     {
                       id: physician.npiNumber,
                       matchScore: matches.filter(
@@ -68,7 +70,7 @@ export default function Matching() {
             }));
           }
         } catch (err) {
-          console.log(`res for P001`, err);
+          console.log(`error`, err);
         }
         if (Physicians.length === i + 1) {
           setPageState((prev) => ({

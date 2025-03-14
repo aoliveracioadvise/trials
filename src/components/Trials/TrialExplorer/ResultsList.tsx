@@ -21,11 +21,13 @@ export const ResultsList = () => {
             .map((trial) => (
               <button
                 onClick={() => {
-                  setPageState((prev) => ({
-                    ...prev,
-                    selectedTrial: trial,
-                    matchedPhysician: null,
-                  }));
+                  if (trial["NCT Number"] !== "") {
+                    setPageState((prev) => ({
+                      ...prev,
+                      selectedTrial: trial,
+                      matchedPhysician: null,
+                    }));
+                  }
                 }}
                 key={trial["NCT Number"]}
                 className={`flex min-h-40 w-full p-3 text-left rounded-lg ${

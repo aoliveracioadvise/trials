@@ -49,8 +49,8 @@ export const Dashboard = () => {
                   }}
                 />
               ))}
-              {WEIGHT_LOSS.filter(
-                (trial) => trial["NCT Number"] === "NCT05949008"
+              {Trials.filter(
+                (trial) => trial["NCT Number"] === "NCT00142649"
               ).map((item, i) => (
                 <TrialCard
                   key={i}
@@ -61,7 +61,7 @@ export const Dashboard = () => {
                     phase: item["Phases"] as string,
                     sponsor: item["Sponsor"] as string,
                     status: item["Study Status"] as string,
-                    area: "Weight Loss",
+                    area: "Overian Cancer",
                   }}
                 />
               ))}
