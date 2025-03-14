@@ -61,7 +61,7 @@ export const Dashboard = () => {
                     phase: item["Phases"] as string,
                     sponsor: item["Sponsor"] as string,
                     status: item["Study Status"] as string,
-                    area: "Overian Cancer",
+                    area: "Weight Loss",
                   }}
                 />
               ))}
