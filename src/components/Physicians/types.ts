@@ -17,5 +17,6 @@ export type PhysicianStateType = {
     id: string;
     trialId: string;
     matchScore: string;
+    matching_summary: string;
   }> | null;
 };

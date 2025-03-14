@@ -13,7 +13,7 @@ export type TrialType = Partial<{
   "Other Outcome Measures": string;
   Sponsor: string;
   Collaborators: string;
-  Sex: "FEMALE" | "MALE" | "ALL";
+  Sex: string;
   Age: string;
   Phases: "PHASE1" | "PHASE2" | "PHASE3" | "PHASE4" | string;
   Enrollment: number | string;

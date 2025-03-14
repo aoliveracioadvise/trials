@@ -20,9 +20,21 @@ export const TrialMatches = () => {
             `http://127.0.0.1:8000/physician/${pageState.selectedPhysician?.npiNumber}/trials`
           );
           const res = await _res.json();
+          console.log(res);
           setPageState((prev) => ({
             ...prev,
-            matchedTrials: res.trials.matches,
+            matchedTrials: res.trials.matches.map(
+              (item: {
+                id: string;
+                confidence: string;
+                matching_summary: string;
+              }) => ({
+                id: item.id,
+                trialId: item.id,
+                matchScore: item.confidence,
+                matching_summary: item.matching_summary,
+              })
+            ),
             loadingTrials: false,
           }));
         } catch (err) {
@@ -60,6 +72,7 @@ export const TrialMatches = () => {
       </div>
     );
   }
+  console.log(pageState.matchedTrials);
   return (
     <div className="flex flex-col w-full h-full p-4 gap-4 overflow-y-auto">
       <h2 className="font-semibold text-lg">
@@ -69,7 +82,7 @@ export const TrialMatches = () => {
       {pageState.matchedTrials.map((trial, index) => {
         // Get the trial details from the trialId
         const trialDetails = Trials.find(
-          (t) => t["NCT Number"] === trial.trialId
+          (t) => t["NCT Number"] === trial.id.slice(0, -2)
         );
 
         return (
